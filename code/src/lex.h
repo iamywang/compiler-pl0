@@ -10,6 +10,7 @@
 5.拼由两个字符组成的运算符，如：>=、<=等等，识别后将类别存放在SYM中。
 6.打印源程序，边读入字符边打印。
 由于一个单词是由一个或多个字符组成的，所以在词法分析程序GETSYM中定义一个读字符过程GETCH。 */
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -72,17 +73,27 @@ int word_sym[REVERSED_WORD_NUMBER + 1] = {NULL_SYM, CONST_SYM, VAR_SYM, PROCEDUR
 char chars[CHAR_SYMBOL_NUMBER + 1] = {' ', '+', '-', '*', '/', '=', '#', '<', '>', '(', ')', '{', '}', ',', ';', '.'};
 int char_sym[CHAR_SYMBOL_NUMBER + 1] = {NULL_SYM, PLUS_SYM, MINUS_SYM, MUL_SYM, DIV_SYM, EQUAL_SYM, NOTEQ_SYM, LESS_SYM, BIG_SYM, LEFTP_SYM, RIGHTP_SYM, LEFTB_SYM, RIGHTB_SYM, COMMA_SYM, SEMICOLON_SYM, PERIOD_SYM};
 
+char *err_msg[] = {
+    "The length of ID is too long, expected less than 10.",            // 标识符长度过长
+    "The length of NUM is too long, expected less than 10.",           // 数字长度过长
+    "Iillegal ASSIGNMENT_SYM, expected ':='",                          // 非法赋值运算符
+    "The length of code is too long, expected no more than 500 chars." // 代码总量过长
+};
+
 FILE *in; // 文件
+
+char code[500];   // 存放代码
+int code_pos = 0; // 当前位置
 
 char ch;                    // 读到的字符
 enum SYM_TYPE sym;          // 关键字类型
 char id[MAX_ID_LENGTH + 1]; // 标识符的值
 int num;                    // 数字的值
-
-int ch_count;     // 字符计数器
-int line_len;     // 行计数器
-int code_pointer; // 代码指针
-char line[80];
+int line = 1;               // 行数
 
 void getch();
 int getsym();
+void error(int error_code)
+{
+    printf("错误<error: %d, %s>\n", error_code, err_msg[error_code]);
+}
