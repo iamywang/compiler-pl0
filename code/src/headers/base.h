@@ -21,10 +21,13 @@ FILE *in; // 文件
 #define ERROR_ANAL
 
 char *err_msg[] = {
-    "The length of ID is too long, expected less than 10.",            // 标识符长度过长
-    "The length of NUM is too long, expected less than 10.",           // 数字长度过长
-    "Iillegal ASSIGNMENT_SYM, expected ':='",                          // 非法赋值运算符
-    "The length of code is too long, expected no more than 500 chars." // 代码总量过长
+    "The length of ID is too long, expected less than 10.",                 // 标识符长度过长
+    "The length of NUM is too long, expected less than 10.",                // 数字长度过长
+    "Iillegal ASSIGNMENT_SYM, expected ':='",                               // 非法赋值运算符
+    "The length of code is too long, expected no more than 500 chars."      // 代码总量过长
+    "There must be an identifier to follow 'const', 'var', or 'procedure'." // 缺少标识符
+    "There must be a '=' to follow identifier."                             // 常量声明应该是 =
+    "There must be a number to follow '='."                                 // = 后面缺少数字
 };
 
 void error(int error_code)

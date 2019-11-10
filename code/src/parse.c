@@ -28,6 +28,16 @@ void enter(int kind)
     }
 }
 
+int position(char *id)
+{
+    int i;
+    strcpy(table[0].name, id);
+    i = tx + 1;
+    while (strcmp(table[--i].name, id) != 0)
+        ;
+    return i;
+}
+
 void gen(int f, int l, int a)
 {
     if (cx > CXMAX)
@@ -38,4 +48,45 @@ void gen(int f, int l, int a)
     code[cx].f = f;
     code[cx].l = l;
     code[cx++].a = a;
+}
+
+void constdeclaration()
+{
+    if (sym == ID_SYM)
+    {
+        getsym();
+        if (sym == EQUAL_SYM || sym == ASSIGNMENT_SYM)
+        {
+            if (sym == ASSIGNMENT_SYM)
+                error(5); // Found ':=' when expecting '='.
+            getsym();
+            if (sym == NUM_SYM)
+            {
+                enter(CONST_SYM);
+                getsym();
+            }
+            else
+            {
+                error(6); // There must be a number to follow '='.
+            }
+        }
+        else
+        {
+            error(5); // There must be an '=' to follow the identifier.
+        }
+    }
+    error(4); // There must be an identifier to follow 'const', 'var', or 'procedure'.
+}
+
+void vardeclaration()
+{
+    if (sym == ID_SYM)
+    {
+        enter(VAR_SYM);
+        getsym();
+    }
+    else
+    {
+        error(4); // There must be an identifier to follow 'const', 'var', or 'procedure'.
+    }
 }

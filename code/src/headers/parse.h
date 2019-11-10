@@ -23,7 +23,8 @@ int level = 0; // 当前层次
 int tx = 0;    // table指针
 int dx;        // 每层的局部量的相对地址
 
-void enter(int kind); // 添加到table中
+void enter(int kind);   // 添加到table中
+int position(char *id); // 确定在table中的位置
 
 // 2. 语句处理和代码生成
 
@@ -42,5 +43,8 @@ instruction code[CXMAX]; // 生成的指令
 void gen(int f, int l, int a); //代码生成
 
 // 3. 词法分析
+
+void constdeclaration();
+void vardeclaration();
 
 void block();
