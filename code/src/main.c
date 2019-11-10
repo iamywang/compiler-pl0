@@ -1,5 +1,6 @@
 #include "lex.c"
 #include "parse.c"
+#include "interpreter.c"
 
 void lex_anal()
 {
@@ -21,6 +22,7 @@ void syn_anal()
 void exec()
 {
     // 解释执行
+    interpret();
 }
 
 int main(int argc, char *argv[])

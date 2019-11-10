@@ -15,6 +15,8 @@
 #define CXMAX 500
 #define TXMAX 500
 
+#define STACK_SIZE 1024
+
 FILE *in; // 文件
 
 #ifndef ERROR_ANAL

@@ -35,6 +35,35 @@ typedef struct
     int a; // 位移量
 } instruction;
 
+enum INS_CODE
+{
+    LIT,
+    OPR,
+    LOD,
+    STO,
+    CAL,
+    INT,
+    JMP,
+    JPC
+};
+
+enum OPR_CODE
+{
+    OPR_RET,
+    OPR_NEG,
+    OPR_ADD,
+    OPR_MIN,
+    OPR_MUL,
+    OPR_DIV,
+    OPR_ODD,
+    OPR_EQU,
+    OPR_NEQ,
+    OPR_LES,
+    OPR_LEQ,
+    OPR_GTR,
+    OPR_GEQ
+};
+
 char *mnemonic[MAX_INS] = {"LIT", "OPR", "LOD", "STO", "CAL", "INT", "JMP", "JPC"}; // 指令代码
 
 int cx;                  // 当前要生成的代码编号
