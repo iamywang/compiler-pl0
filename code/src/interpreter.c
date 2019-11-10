@@ -104,3 +104,48 @@ void interpret()
         }
     } while (pc);
 }
+
+int main()
+{
+    // test
+    /*
+    int  0  3
+    lod  1  3
+    lit  0  10
+    opr  0  2
+    sto  1  4
+    opr  0  0
+    */
+
+    printf("Begin Test EXEC. \n");
+
+    code[0].f = INT;
+    code[0].l = 0;
+    code[0].a = 3;
+
+    code[1].f = LOD;
+    code[1].l = 1;
+    code[1].a = 3;
+
+    code[2].f = LIT;
+    code[2].l = 0;
+    code[2].a = 10;
+
+    code[3].f = OPR;
+    code[3].l = 0;
+    code[3].a = 2;
+
+    code[4].f = STO;
+    code[4].l = 1;
+    code[4].a = 4;
+
+    code[5].f = OPR;
+    code[5].l = 0;
+    code[5].a = 0;
+
+    interpret();
+
+    printf("Finish Test EXEC. \n");
+
+    return 0;
+}

@@ -1,3 +1,6 @@
+#ifndef BASE_H
+#define BASE_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -18,9 +21,6 @@
 #define STACK_SIZE 1024
 
 FILE *in; // 文件
-
-#ifndef ERROR_ANAL
-#define ERROR_ANAL
 
 char *err_msg[] = {
     "The length of ID is too long, expected less than 10.",                 // 标识符长度过长

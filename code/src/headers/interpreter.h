@@ -1,3 +1,6 @@
+#ifndef INTERPRETER_H
+#define INTERPRETER_H
+
 #include "base.h"
 #include "parse.h"
 
@@ -9,3 +12,5 @@ int t;         // 栈顶寄存器
 int b;         // 基地址寄存器
 
 void interpret();
+
+#endif

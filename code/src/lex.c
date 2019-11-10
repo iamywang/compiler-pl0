@@ -178,3 +178,17 @@ int getsym()
         printf("界符 <line %d, '%c'>\n", line, ch);
     }
 }
+
+int main(int argc, char *argv[])
+{
+    in = fopen(argv[1], "r"); // 读入文件
+    for (int i = 0; i < 500; i++)
+        lex_code[i] = '\0';
+
+    while (getsym())
+        ;
+    for (int i = 0; i < code_pos; i++)
+        printf("%c", lex_code[i]);
+
+    return 0;
+}

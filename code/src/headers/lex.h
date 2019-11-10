@@ -1,3 +1,6 @@
+#ifndef LEX_H
+#define LEX_H
+
 #include "base.h"
 
 enum SYM_TYPE
@@ -64,3 +67,5 @@ int line = 1;               // 行数
 
 void getch();
 int getsym();
+
+#endif

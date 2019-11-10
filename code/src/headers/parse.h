@@ -1,3 +1,6 @@
+#ifndef PAESR_H
+#define PARSE_H
+
 #include "base.h"
 
 // 1. 说明部分的处理
@@ -77,3 +80,5 @@ void constdeclaration();
 void vardeclaration();
 
 void block();
+
+#endif
