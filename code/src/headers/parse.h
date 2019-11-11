@@ -52,19 +52,16 @@ enum INS_CODE
 
 enum OPR_CODE
 {
-    OPR_RET,
-    OPR_NEG,
-    OPR_ADD,
-    OPR_MIN,
-    OPR_MUL,
-    OPR_DIV,
-    OPR_ODD,
-    OPR_EQU,
-    OPR_NEQ,
-    OPR_LES,
-    OPR_LEQ,
-    OPR_GTR,
-    OPR_GEQ
+    OPR_ADD, // +
+    OPR_MIN, // -
+    OPR_MUL, // *
+    OPR_DIV, // /
+    OPR_EQU, // =
+    OPR_NEQ, // #
+    OPR_LES, // <
+    OPR_LEQ, // <=
+    OPR_GTR, // >
+    OPR_GEQ  // >=
 };
 
 char *mnemonic[MAX_INS] = {"LIT", "OPR", "LOD", "STO", "CAL", "INT", "JMP", "JPC"}; // 指令代码

@@ -1,5 +1,14 @@
 #include "headers/interpreter.h"
 
+int base(int stack[], int currentLevel, int levelDiff)
+{
+    int b = currentLevel;
+
+    while (levelDiff--)
+        b = stack[b];
+    return b;
+}
+
 void interpret()
 {
     pc = 0;
@@ -12,20 +21,12 @@ void interpret()
         i = code[pc++];
         switch (i.f)
         {
-        case LIT:
-            stack[++t] = i.a;
+        case LIT:             // a放到栈顶
+            stack[++t] = i.a; // t表示栈顶
             break;
         case OPR:
-            switch (i.a)
+            switch (i.a) // a 具体操作内容
             {
-            case OPR_RET:
-                t = b - 1;
-                pc = stack[t + 3];
-                b = stack[t + 2];
-                break;
-            case OPR_NEG:
-                stack[t] = -stack[t];
-                break;
             case OPR_ADD:
                 t--;
                 stack[t] += stack[t + 1];
@@ -42,14 +43,10 @@ void interpret()
                 t--;
                 if (stack[t + 1] == 0)
                 {
-                    printf("Runtime Error: Divided by zero.\n");
-                    printf("Program terminated.\n");
+                    printf("Error: Divided by zero.\n");
                     continue;
                 }
                 stack[t] /= stack[t + 1];
-                break;
-            case OPR_ODD:
-                stack[t] %= 2;
                 break;
             case OPR_EQU:
                 t--;
@@ -62,44 +59,43 @@ void interpret()
                 t--;
                 stack[t] = stack[t] < stack[t + 1];
                 break;
-            case OPR_GEQ:
-                t--;
-                stack[t] = stack[t] >= stack[t + 1];
-            case OPR_GTR:
-                t--;
-                stack[t] = stack[t] > stack[t + 1];
-                break;
             case OPR_LEQ:
                 t--;
                 stack[t] = stack[t] <= stack[t + 1];
-            } // switch
+            }
             break;
+        case OPR_GTR:
+            t--;
+            stack[t] = stack[t] > stack[t + 1];
+            break;
+        case OPR_GEQ:
+            t--;
+            stack[t] = stack[t] >= stack[t + 1];
+
         case LOD:
-            stack[++t] = stack[base(stack, b, i.l) + i.a];
+            stack[++t] = stack[base(stack, b, i.l) + i.a]; // a相对寻址
             break;
-        case STO:
+        case STO: // 栈顶内容送到某个单元
             stack[base(stack, b, i.l) + i.a] = stack[t];
-            printf("%d\n", stack[t]);
             t--;
             break;
-        case CAL:
+        case CAL: // 调用过程
             stack[t + 1] = base(stack, b, i.l);
-            // generate new block mark
             stack[t + 2] = b;
             stack[t + 3] = pc;
             b = t + 1;
             pc = i.a;
             break;
-        case INT:
+        case INT: // 局部量个数+a
             t += i.a;
             break;
-        case JMP:
+        case JMP: // 无条件转移
             pc = i.a;
             break;
-        case JPC:
+        case JPC: // 条件转移，栈顶为0（非真）时转移
             if (stack[t] == 0)
                 pc = i.a;
-            t--;
+            t--; // 顺序执行
             break;
         }
     } while (pc);
