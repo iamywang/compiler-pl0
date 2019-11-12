@@ -13,12 +13,16 @@ void interpret()
 {
     pc = 0;
     b = 1;
-    t = 3;
-    stack[1] = stack[2] = stack[3] = 0;
+    t = 0;
 
     do
     {
         i = code[pc++];
+        if (pc > code_size || i.f >= 8)
+            return;
+
+        // printf("pc: %d, %d, %d, %d\n", pc, i.f, i.l, i.a);
+
         switch (i.f)
         {
         case LIT:             // a放到栈顶
@@ -27,6 +31,10 @@ void interpret()
         case OPR:
             switch (i.a) // a 具体操作内容
             {
+            case OPR_EXT:
+                printf("%d\n", stack[t]);
+                return;
+                break;
             case OPR_ADD:
                 t--;
                 stack[t] += stack[t + 1];
@@ -62,15 +70,15 @@ void interpret()
             case OPR_LEQ:
                 t--;
                 stack[t] = stack[t] <= stack[t + 1];
+                break;
+            case OPR_GTR:
+                t--;
+                stack[t] = stack[t] > stack[t + 1];
+                break;
+            case OPR_GEQ:
+                t--;
+                stack[t] = stack[t] >= stack[t + 1];
             }
-            break;
-        case OPR_GTR:
-            t--;
-            stack[t] = stack[t] > stack[t + 1];
-            break;
-        case OPR_GEQ:
-            t--;
-            stack[t] = stack[t] >= stack[t + 1];
 
         case LOD:
             stack[++t] = stack[base(stack, b, i.l) + i.a]; // a相对寻址
@@ -103,42 +111,42 @@ void interpret()
 
 int main()
 {
-    // test
     /*
-    int  0  3
-    lod  1  3
-    lit  0  10
-    opr  0  2
-    sto  1  4
-    opr  0  0
+    JMP		0		10
+    JMP		0		2
+    INT		0		3
+    LIT		0		4
+    STO		1		3
+    LIT		0		10
+    LOD		1		3
+    OPR		0		1
+    STO		1		4
+    OPR		0		0
+    INT		0		5
+    CAL		0		2
+    OPR		0		0
     */
 
     printf("Begin Test EXEC. \n");
 
-    code[0].f = INT;
-    code[0].l = 0;
-    code[0].a = 3;
+    char a[3];
+    int b, c;
 
-    code[1].f = LOD;
-    code[1].l = 1;
-    code[1].a = 3;
+    code_size = 13;
 
-    code[2].f = LIT;
-    code[2].l = 0;
-    code[2].a = 10;
-
-    code[3].f = OPR;
-    code[3].l = 0;
-    code[3].a = 2;
-
-    code[4].f = STO;
-    code[4].l = 1;
-    code[4].a = 4;
-
-    code[5].f = OPR;
-    code[5].l = 0;
-    code[5].a = 0;
-
+    for (int k = 0; k < code_size; k++)
+    {
+        int index = 7;
+        scanf("%s", &a);
+        scanf("%d", &b);
+        scanf("%d", &c);
+        while (strcmp(a, ins[index--]))
+            ;
+        code[k].f = index + 1;
+        code[k].l = b;
+        code[k].a = c;
+        // printf("%d, %d, %d\n", code[k].f, code[k].l, code[k].a);
+    }
     interpret();
 
     printf("Finish Test EXEC. \n");

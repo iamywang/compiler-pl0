@@ -2,6 +2,7 @@
 #define PARSE_H
 
 #include "base.h"
+#include "lex.h"
 
 // 1. 说明部分的处理
 
@@ -52,6 +53,7 @@ enum INS_CODE
 
 enum OPR_CODE
 {
+    OPR_EXT, // exit
     OPR_ADD, // +
     OPR_MIN, // -
     OPR_MUL, // *
@@ -64,7 +66,7 @@ enum OPR_CODE
     OPR_GEQ  // >=
 };
 
-char *mnemonic[MAX_INS] = {"LIT", "OPR", "LOD", "STO", "CAL", "INT", "JMP", "JPC"}; // 指令代码
+char *ins[MAX_INS] = {"LIT", "OPR", "LOD", "STO", "CAL", "INT", "JMP", "JPC"}; // 指令代码
 
 int cx;                  // 当前要生成的代码编号
 instruction code[CXMAX]; // 生成的指令

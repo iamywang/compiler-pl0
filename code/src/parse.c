@@ -42,7 +42,7 @@ void gen(int f, int l, int a)
 {
     if (cx > CXMAX)
     {
-        printf("Fatal Error: Program too long.\n");
+        printf("Error: Code too long.\n");
         exit(1);
     }
     code[cx].f = f;

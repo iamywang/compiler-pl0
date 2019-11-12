@@ -11,6 +11,8 @@ int pc;        // 程序地址寄存器
 int t;         // 栈顶寄存器
 int b;         // 基地址寄存器
 
+int code_size; // 目标指令条数
+
 int base();
 
 void interpret();
