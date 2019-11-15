@@ -154,7 +154,52 @@ void block(set symset)
                 error(8);
             level++;
             savedTx = tx;
-            
+
+            set nextset = unionSet(symset, initSet(SEMICOLON_SYM, NULL_SYM));
+            block(nextset); // 递归
+            tx = savedTx;
+            level--;
+
+            if (sym == SEMICOLON_SYM)
+            {
+                getsym();
+                nextset = unionSet(statementsym, initSet(ID_SYM, PROCEDURE_SYM, NULL_SYM));
+                // test(nextset, symset, 6);
+            }
+            else
+                error(8);
         }
-    } while (1);
+
+        set nextset = unionSet(statementsym, initSet(ID_SYM, NULL_SYM));
+        // test(nextset, declaresym, 7);
+    } while (inSet(sym, declaresym));
+
+    code[mk->address].a = cx;
+    mk->address = cx;
+    gen(INT, 0, block_dx);
+
+    set nextset = unionSet(symset, initSet(SEMICOLON_SYM, END_SYM, NULL_SYM));
+    statement(nextset);
+
+    gen(OPR, 0, OPR_EXT); // OPR 0 0
+    // test(symset, nullsym, 8);
+}
+
+int main()
+{
+    nullsym = initSet(NULL_SYM);
+    relsym = initSet(EQUAL_SYM, NOTEQ_SYM, LESS_SYM, LESSEQ_SYM, BIG_SYM, BIGEQ_SYM, NULL_SYM);    // 关系
+    declaresym = initSet(CONST_SYM, VAR_SYM, PROCEDURE_SYM, NULL_SYM);                             // 声明
+    statementsym = initSet(BEGIN_SYM, CALL_SYM, IF_SYM, WHILE_SYM, READ_SYM, WRITE_SYM, NULL_SYM); // 表达式
+    factorsym = initSet(ID_SYM, NUM_SYM, LEFTP_SYM, NULL_SYM);                                     // 项
+
+    getsym();
+
+    set symset = unionSet(unionSet(declaresym, statementsym), initSet(PERIOD_SYM, NULL_SYM));
+    block(symset);
+
+    //  打印目标代码
+    for (int i = 0; i < cx; i++)
+        printf("%s %d %d\n", ins[code[i].f], code[i].l, code[i].a);
+    return 0;
 }

@@ -82,6 +82,8 @@ void gen(int f, int l, int a); //代码生成
 
 // 3. 词法分析
 
+set nullsym, relsym, declaresym, statementsym, factorsym;
+
 void constdeclaration();
 void vardeclaration();
 

@@ -29,7 +29,7 @@ typedef struct set_item
     struct set_item *next; // next
 } set_item, *set;
 
-void initSet(int item, ...) // 初始化集合
+set initSet(int item, ...) // 初始化集合
 {
     va_list list;
     set s;
@@ -63,7 +63,7 @@ void insertSet(set s, int item) // 向集合中添加元素
     p->next = q;
 }
 
-void unionSet(set s1, set s2) // 合并两个集合
+set unionSet(set s1, set s2) // 合并两个集合
 {
     set s;
     set_item *p;
@@ -126,7 +126,7 @@ char *err_msg[] = {
     "There must be a '=' to follow identifier.",                             // 常量声明应该是 =
     "There must be a number to follow '='.",                                 // = 后面缺少数字
     "There are too many levels.",                                            // level 太多
-    "There may miss a ',' or ';'."                                           // l缺少, ;
+    "There may miss a ',' or ';'."                                           // 缺少, ;
 };
 
 void error(int error_code)
