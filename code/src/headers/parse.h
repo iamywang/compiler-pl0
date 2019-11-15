@@ -39,6 +39,13 @@ typedef struct
     int a; // 位移量
 } instruction;
 
+enum ID_TYPE
+{
+    ID_CONST,
+    ID_VAR,
+    ID_PROCEDURE
+};
+
 enum INS_CODE
 {
     LIT,

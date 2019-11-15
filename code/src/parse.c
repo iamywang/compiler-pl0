@@ -8,20 +8,20 @@ void enter(int kind)
     table[tx].kind = kind;
     switch (kind)
     {
-    case CONST_SYM:
+    case ID_CONST:
         if (num > MAX_ADDR)
         {
-            error(1); // The number is too great.
+            error(1);
             num = 0;
         }
         table[tx].value = num;
         break;
-    case VAR_SYM:
+    case ID_VAR:
         mk = (mask *)&table[tx];
         mk->level = level;
         mk->address = dx++;
         break;
-    case PROCEDURE_SYM:
+    case ID_PROCEDURE:
         mk = (mask *)&table[tx];
         mk->level = level;
         break;
@@ -58,35 +58,100 @@ void constdeclaration()
         if (sym == EQUAL_SYM || sym == ASSIGNMENT_SYM)
         {
             if (sym == ASSIGNMENT_SYM)
-                error(5); // Found ':=' when expecting '='.
+                error(5);
             getsym();
             if (sym == NUM_SYM)
             {
-                enter(CONST_SYM);
+                enter(ID_CONST);
                 getsym();
             }
             else
-            {
-                error(6); // There must be a number to follow '='.
-            }
+                error(6);
         }
         else
-        {
-            error(5); // There must be an '=' to follow the identifier.
-        }
+            error(5);
     }
-    error(4); // There must be an identifier to follow 'const', 'var', or 'procedure'.
+    error(4);
 }
 
 void vardeclaration()
 {
     if (sym == ID_SYM)
     {
-        enter(VAR_SYM);
+        enter(ID_VAR);
         getsym();
     }
     else
+        error(4);
+}
+
+void block()
+{
+    mask *mk;
+
+    dx = 3;
+    int block_dx = dx;
+    mk = (mask *)&table[tx];
+    mk->address = cx;
+    gen(JMP, 0, 0);
+
+    if (level > LEVEL)
+        error(7); // 层数太多
+    do
     {
-        error(4); // There must be an identifier to follow 'const', 'var', or 'procedure'.
-    }
+        if (sym == CONST_SYM)
+        {
+            getsym();
+            do
+            {
+                constdeclaration();
+                while (sym == COMMA_SYM)
+                {
+                    getsym();
+                    constdeclaration();
+                }
+                if (sym == SEMICOLON_SYM)
+                    getsym();
+                else
+                    error(8); // Missing ',' or ';'.
+            } while (sym == ID_SYM);
+        }
+
+        if (sym == VAR_SYM)
+        {
+            getsym();
+            do
+            {
+                vardeclaration();
+                while (sym == COMMA_SYM)
+                {
+                    getsym();
+                    vardeclaration();
+                }
+                if (sym == SEMICOLON_SYM)
+                    getsym();
+                else
+                    error(8);
+            } while (sym == ID_SYM);
+        }
+
+        while (sym == PROCEDURE_SYM)
+        {
+            getsym();
+            if (sym == ID_SYM)
+            {
+                enter(ID_PROCEDURE);
+                getsym();
+            }
+            else
+                error(4);
+
+            if (sym == SEMICOLON_SYM)
+                getsym();
+            else
+                error(8);
+            level++;
+            // unfinished
+        }
+    } while (1);
 }
