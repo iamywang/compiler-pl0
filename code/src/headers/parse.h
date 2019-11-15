@@ -85,6 +85,6 @@ void gen(int f, int l, int a); //代码生成
 void constdeclaration();
 void vardeclaration();
 
-void block();
+void block(set symset);
 
 #endif

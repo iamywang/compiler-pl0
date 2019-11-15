@@ -22,6 +22,101 @@
 
 FILE *in; // 文件
 
+// 定义集合操作，用于递归语法分析
+typedef struct set_item
+{
+    int item;
+    struct set_item *next; // next
+} set_item, *set;
+
+void initSet(int item, ...) // 初始化集合
+{
+    va_list list;
+    set s;
+
+    s = (set_item *)malloc(sizeof(set_item));
+    s->next = NULL;
+
+    va_start(list, item);
+    while (item)
+    {
+        insertSet(s, item);
+        item = va_arg(list, int);
+    }
+    va_end(list);
+    return s;
+}
+
+void insertSet(set s, int item) // 向集合中添加元素
+{
+    set_item *p = s;
+    set_item *q;
+
+    while (p->next && p->next->item < item)
+    {
+        p = p->next;
+    }
+
+    q = (set_item *)malloc(sizeof(set_item));
+    q->item = item;
+    q->next = p->next;
+    p->next = q;
+}
+
+void unionSet(set s1, set s2) // 合并两个集合
+{
+    set s;
+    set_item *p;
+
+    s = p = (set_item *)malloc(sizeof(set_item));
+    while (s1 && s2)
+    {
+        p->next = (set_item *)malloc(sizeof(set_item));
+        p = p->next;
+        if (s1->item < s2->item)
+        {
+            p->item = s1->item;
+            s1 = s1->next;
+        }
+        else
+        {
+            p->item = s2->item;
+            s2 = s2->next;
+        }
+    }
+
+    while (s1)
+    {
+        p->next = (set_item *)malloc(sizeof(set_item));
+        p = p->next;
+        p->item = s1->item;
+        s1 = s1->next;
+    }
+
+    while (s2)
+    {
+        p->next = (set_item *)malloc(sizeof(set_item));
+        p = p->next;
+        p->item = s2->item;
+        s2 = s2->next;
+    }
+
+    p->next = NULL;
+
+    return s;
+}
+
+int inSet(int item, set s) // 判断是否在集合内
+{
+    s = s->next;
+    while (s && s->item < item)
+        s = s->next;
+    if (s && s->item == item)
+        return 1;
+    else
+        return 0;
+}
+
 char *err_msg[] = {
     "The length of ID is too long, expected less than 10.",                  // 标识符长度过长
     "The length of NUM is too long, expected less than 10.",                 // 数字长度过长

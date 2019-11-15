@@ -71,7 +71,8 @@ void constdeclaration()
         else
             error(5);
     }
-    error(4);
+    else
+        error(4);
 }
 
 void vardeclaration()
@@ -85,9 +86,10 @@ void vardeclaration()
         error(4);
 }
 
-void block()
+void block(set symset)
 {
     mask *mk;
+    int savedTx;
 
     dx = 3;
     int block_dx = dx;
@@ -151,7 +153,8 @@ void block()
             else
                 error(8);
             level++;
-            // unfinished
+            savedTx = tx;
+            
         }
     } while (1);
 }
