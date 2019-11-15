@@ -3,7 +3,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include <string.h>
+#include <stdarg.h>
 
 #define REVERSED_WORD_NUMBER 14 // 保留字个数
 #define CHAR_SYMBOL_NUMBER 15   // 各种符号个数
@@ -29,6 +31,22 @@ typedef struct set_item
     struct set_item *next; // next
 } set_item, *set;
 
+void insertSet(set s, int item) // 向集合中添加元素
+{
+    set_item *p = s;
+    set_item *q;
+
+    while (p->next && p->next->item < item)
+    {
+        p = p->next;
+    }
+
+    q = (set_item *)malloc(sizeof(set_item));
+    q->item = item;
+    q->next = p->next;
+    p->next = q;
+}
+
 set initSet(int item, ...) // 初始化集合
 {
     va_list list;
@@ -45,22 +63,6 @@ set initSet(int item, ...) // 初始化集合
     }
     va_end(list);
     return s;
-}
-
-void insertSet(set s, int item) // 向集合中添加元素
-{
-    set_item *p = s;
-    set_item *q;
-
-    while (p->next && p->next->item < item)
-    {
-        p = p->next;
-    }
-
-    q = (set_item *)malloc(sizeof(set_item));
-    q->item = item;
-    q->next = p->next;
-    p->next = q;
 }
 
 set unionSet(set s1, set s2) // 合并两个集合

@@ -1,4 +1,5 @@
 #include "headers/parse.h"
+#include "lex.c"
 
 void enter(int kind)
 {
@@ -84,6 +85,33 @@ void vardeclaration()
     }
     else
         error(4);
+}
+
+void statement(set symset)
+{
+    int i, cx1, cx2;
+    set set1, set2;
+
+    switch (sym)
+    {
+    case ID_SYM:
+        break;
+    case BEGIN_SYM:
+        break;
+    case CALL_SYM:
+        break;
+    case WHILE_SYM:
+        break;
+    case IF_SYM:
+        break;
+    case READ_SYM:
+        break;
+    case WRITE_SYM:
+        break;
+    default:
+        break;
+    }
+    // test(symset, nullsym, 19);
 }
 
 void block(set symset)
@@ -185,15 +213,17 @@ void block(set symset)
     // test(symset, nullsym, 8);
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+    in = fopen(argv[1], "r"); // 读入文件
+
     nullsym = initSet(NULL_SYM);
     relsym = initSet(EQUAL_SYM, NOTEQ_SYM, LESS_SYM, LESSEQ_SYM, BIG_SYM, BIGEQ_SYM, NULL_SYM);    // 关系
     declaresym = initSet(CONST_SYM, VAR_SYM, PROCEDURE_SYM, NULL_SYM);                             // 声明
     statementsym = initSet(BEGIN_SYM, CALL_SYM, IF_SYM, WHILE_SYM, READ_SYM, WRITE_SYM, NULL_SYM); // 表达式
     factorsym = initSet(ID_SYM, NUM_SYM, LEFTP_SYM, NULL_SYM);                                     // 项
 
-    getsym();
+    getsym(); // 获取符号
 
     set symset = unionSet(unionSet(declaresym, statementsym), initSet(PERIOD_SYM, NULL_SYM));
     block(symset);

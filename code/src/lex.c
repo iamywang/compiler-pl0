@@ -179,7 +179,7 @@ int getsym()
     }
 }
 
-int main(int argc, char *argv[])
+/* int main(int argc, char *argv[])
 {
     in = fopen(argv[1], "r"); // 读入文件
     for (int i = 0; i < 500; i++)
@@ -191,4 +191,4 @@ int main(int argc, char *argv[])
         printf("%c", lex_code[i]);
 
     return 0;
-}
+} */

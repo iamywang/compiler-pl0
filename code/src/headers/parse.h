@@ -87,6 +87,8 @@ set nullsym, relsym, declaresym, statementsym, factorsym;
 void constdeclaration();
 void vardeclaration();
 
+void statement(); // 语句处理
+
 void block(set symset);
 
 #endif
