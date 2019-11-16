@@ -38,6 +38,9 @@ int getsym()
             getch();
         } while (isalpha(ch) || isdigit(ch));
 
+        fseek(in, -1, 1); //将当前光标位置左移一位
+        code_pos--;
+
         if (k > MAX_ID_LENGTH)
             error(0);
 
@@ -68,6 +71,10 @@ int getsym()
             k++;
             getch();
         } while (isdigit(ch));
+
+        fseek(in, -1, 1); //将当前光标位置左移一位
+        code_pos--;
+
         printf("数字 <line %d, %d>\n", line, num);
 
         if (k > MAX_NUMBER_LENGTH)
@@ -169,17 +176,3 @@ int getsym()
         printf("界符 <line %d, '%c'>\n", line, ch);
     }
 }
-
-/* int main(int argc, char *argv[])
-{
-    in = fopen(argv[1], "r"); // 读入文件
-    for (int i = 0; i < 500; i++)
-        lex_code[i] = '\0';
-
-    while (getsym())
-        ;
-    for (int i = 0; i < code_pos; i++)
-        printf("%c", lex_code[i]);
-
-    return 0;
-} */

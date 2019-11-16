@@ -435,35 +435,3 @@ void block(set symset)
     gen(OPR, 0, OPR_EXT); // OPR 0 0
     // test(symset, nullsym, 0);
 }
-
-int main(int argc, char *argv[])
-{
-    in = fopen(argv[1], "r"); // 读入文件
-
-    nullsym = initSet(NULL_SYM);
-    relsym = initSet(EQUAL_SYM, NOTEQ_SYM, LESS_SYM, LESSEQ_SYM, BIG_SYM, BIGEQ_SYM, NULL_SYM);    // 关系
-    declaresym = initSet(CONST_SYM, VAR_SYM, PROCEDURE_SYM, NULL_SYM);                             // 声明
-    statementsym = initSet(BEGIN_SYM, CALL_SYM, IF_SYM, WHILE_SYM, READ_SYM, WRITE_SYM, NULL_SYM); // 表达式
-    factorsym = initSet(ID_SYM, NUM_SYM, LEFTP_SYM, NULL_SYM);                                     // 项
-
-    getsym(); // 获取符号
-    getsym(); // 获取符号
-    getsym(); // 获取符号
-    getsym(); // 获取符号
-    getsym(); // 获取符号
-    getsym(); // 获取符号
-    getsym(); // 获取符号
-    getsym(); // 获取符号
-
-    set symset = unionSet(unionSet(declaresym, statementsym), initSet(PERIOD_SYM, NULL_SYM));
-
-    // block(symset);
-
-    if (sym != PERIOD_SYM)
-        error(23);
-
-    //  打印目标代码
-    for (int i = 0; i < cx; i++)
-        printf("%s %d %d\n", ins[code[i].f], code[i].l, code[i].a);
-    return 0;
-}
