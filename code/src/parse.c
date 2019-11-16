@@ -95,23 +95,110 @@ void statement(set symset)
     switch (sym)
     {
     case ID_SYM:
+        mask *mk;
+        if (!(i = position(id)))
+            error(10);
+        else if (table[i].kind != ID_VAR)
+        {
+            error(2);
+            i = 0;
+        }
+        getsym();
+        if (sym == ASSIGNMENT_SYM)
+            getsym();
+        else
+            error(2);
+        // 表达式
+        expression(sym);
+        mk = (mask *)&table[i];
+        if (i)
+            gen(STO, level - mk->level, mk->address);
         break;
     case BEGIN_SYM:
+        getsym();
+        set1 = initSet(SEMICOLON_SYM, END_SYM, NULL_SYM);
+        set2 = unionSet(set1, symset);
+        statement(set2);
+        while (sym == SEMICOLON_SYM || inSet(sym, statementsym))
+        {
+            if (sym == SEMICOLON_SYM)
+                getsym();
+            else
+                error(10);
+            statement(set2);
+        }
+        if (sym == END_SYM)
+            getsym();
+        else
+            error(8);
         break;
     case CALL_SYM:
+        getsym();
+        if (sym != ID_SYM)
+            error(11);
+        else
+        {
+            if (!(i = position(id)))
+                error(10);
+            else if (table[i].kind == ID_PROCEDURE)
+            {
+                mask *mk;
+                mk = (mask *)&table[i];
+                gen(CAL, level - mk->level, mk->address);
+            }
+            else
+                error(17);
+            getsym();
+        }
         break;
     case WHILE_SYM:
+        cx1 = cx;
+        getsym();
+        set1 = initSet(DO_SYM, NULL_SYM);
+        set2 = unionSet(set1, symset);
+        // 条件状态
+        condition(set2);
+        cx2 = cx;
+        gen(JPC, 0, 0);
+        if (sym == DO_SYM)
+            getsym();
+        else
+            error(18);
+        // 语句
+        statement(symset);
+        gen(JMP, 0, cx1);
+        code[cx2].a = cx;
         break;
     case IF_SYM:
+        getsym();
+        set1 = initSet(THEN_SYM, DO_SYM, NULL_SYM);
+        set2 = unionSet(set1, symset);
+        // 条件
+        condition(set2);
+        if (sym == THEN_SYM)
+            getsym();
+        else
+            error(19);
+        cx1 = cx;
+        gen(JPC, 0, 0);
+        // 语句
+        statement(symset);
+        code[cx1].a = cx;
         break;
     case READ_SYM:
         break;
     case WRITE_SYM:
         break;
-    default:
-        break;
     }
-    // test(symset, nullsym, 19);
+    // test(symset, nullsym, 0);
+}
+
+void expression(set symset)
+{
+}
+
+void condition(set symset)
+{
 }
 
 void block(set symset)
@@ -192,14 +279,14 @@ void block(set symset)
             {
                 getsym();
                 nextset = unionSet(statementsym, initSet(ID_SYM, PROCEDURE_SYM, NULL_SYM));
-                // test(nextset, symset, 6);
+                // test(nextset, symset, 0);
             }
             else
                 error(8);
         }
 
         set nextset = unionSet(statementsym, initSet(ID_SYM, NULL_SYM));
-        // test(nextset, declaresym, 7);
+        // test(nextset, declaresym, 0);
     } while (inSet(sym, declaresym));
 
     code[mk->address].a = cx;
@@ -210,7 +297,7 @@ void block(set symset)
     statement(nextset);
 
     gen(OPR, 0, OPR_EXT); // OPR 0 0
-    // test(symset, nullsym, 8);
+    // test(symset, nullsym, 0);
 }
 
 int main(int argc, char *argv[])

@@ -128,7 +128,18 @@ char *err_msg[] = {
     "There must be a '=' to follow identifier.",                             // 常量声明应该是 =
     "There must be a number to follow '='.",                                 // = 后面缺少数字
     "There are too many levels.",                                            // level 太多
-    "There may miss a ',' or ';'."                                           // 缺少, ;
+    "There may miss a ',' or ';'.",                                          // 缺少, ;
+    "The Identifier is illegal.",                                            // 非法标识符
+    "You must declare the identifier before use it.",                        // 未声明标识符
+    "There should be an identifier to follow 'call'.",                       // call 后跟标识符
+    "There should be an identifier to follow 'begin'.",                      // begin 后跟标识符
+    "There should be an identifier to follow 'while'.",                      // while 后跟标识符
+    "There should be an identifier to follow 'if'.",                         // if 后跟标识符
+    "There should be an identifier to follow 'read'.",                       // read 后跟标识符
+    "There should be an identifier to follow 'write'.",                      // write 后跟标识符
+    "You can only call procedure.",                                          // 被call调用的必须是procedure
+    "There must be 'do'.",                                                   // do
+    "There must be 'then'.",                                                 // then
 };
 
 void error(int error_code)
