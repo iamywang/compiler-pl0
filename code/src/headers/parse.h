@@ -71,7 +71,9 @@ enum OPR_CODE
     OPR_LEQ, // <=
     OPR_GTR, // >
     OPR_GEQ, // >=
-    OPR_NEG  // a = -a
+    OPR_NEG, // 取反
+    OPR_RED, // 读入
+    OPR_WRT, // 将栈顶内容输出到标准输出
 };
 
 char *ins[MAX_INS] = {"LIT", "OPR", "LOD", "STO", "CAL", "INT", "JMP", "JPC"}; // 指令代码
@@ -93,6 +95,9 @@ void expression(set symset); // 表达式处理+-*/
 void condition(set symset);  // 状态
 void term(set symset);       // 项
 void factor(set symset);     // 因子
+
+void read();          // 从标准输入读变量
+void write(char *id); // 写变量到标准输出
 
 void block(set symset);
 

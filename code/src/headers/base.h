@@ -144,7 +144,9 @@ char *err_msg[] = {
     "The operator is illegal expected: '= # > < >= <='.",                    // 符号不在关系运算符中
     "Procedure identifier can not be in an expression.",                     //
     "There may miss a ')'.",                                                 // 缺少右括号
-    "There must be a '.' at the end of PL/0 program.",                       // 必须以.结尾
+    "There should be a '.' at the end of PL/0 program.",                     // 必须以.结尾
+    "There should be a '(' to follow 'write'.",                              // write后必须跟(
+    "There should be a ')' to follow identifier.",                           // 标识符后面（read write）必须要有)
 };
 
 void error(int error_code)

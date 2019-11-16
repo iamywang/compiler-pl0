@@ -1,6 +1,7 @@
-const a=101;
-var b,c;
-procedure p;
+const num = 5;
+var x,y;
+
 begin
-  c:=b+a;
+    x:=num;
+    write(x)
 end;.

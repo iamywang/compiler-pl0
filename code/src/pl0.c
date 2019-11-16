@@ -20,6 +20,7 @@ int main(int argc, char *argv[])
 
     block(symset);
 
+    getsym();
     if (sym != PERIOD_SYM)
         error(23);
 

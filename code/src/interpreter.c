@@ -32,7 +32,6 @@ void interpret()
             switch (i.a) // a 具体操作内容
             {
             case OPR_EXT:
-                printf("%d\n", stack[t]);
                 return;
                 break;
             case OPR_ADD:
@@ -82,6 +81,12 @@ void interpret()
                 break;
             case OPR_NEG:
                 stack[t] = -stack[t];
+                break;
+            case OPR_RED:
+                break;
+            case OPR_WRT:
+                printf("%d\n", stack[t]);
+                t--;
                 break;
             }
 

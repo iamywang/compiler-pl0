@@ -188,6 +188,19 @@ void statement(set symset)
     case READ_SYM:
         break;
     case WRITE_SYM:
+        getsym();
+        if (sym == LEFTP_SYM)
+        {
+            getsym();
+            write(id);
+
+            if (sym == RIGHTP_SYM)
+                getsym();
+            else
+                error(25);
+        }
+        else
+            error(24);
         break;
     }
     // test(symset, nullsym, 0);
@@ -335,6 +348,40 @@ void factor(set symset)
         }
         // test(symset, initSet(LEFTP_SYM, NULL_SYM), 0);
     }
+}
+
+void read()
+{
+}
+
+void write(char *id)
+{
+    void write();
+    int i;
+    mask *mk;
+
+    if (!(i = position(id)))
+        error(10);
+    else if (table[i].kind != ID_VAR)
+    {
+        error(2);
+        i = 0;
+    }
+
+    mk = (mask *)&table[i];
+    if (i)
+    {
+        gen(LOD, level - mk->level, mk->address); // 将变量放到栈顶
+        gen(OPR, 0, OPR_WRT);                     // 输出栈顶内容
+    }
+
+    getsym();
+    while (sym == COMMA_SYM)
+    {
+        getsym();
+        write(id);
+    }
+    getsym();
 }
 
 void block(set symset)
