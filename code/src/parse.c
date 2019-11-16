@@ -91,11 +91,11 @@ void statement(set symset)
 {
     int i, cx1, cx2;
     set set1, set2;
+    mask *mk;
 
     switch (sym)
     {
     case ID_SYM:
-        mask *mk;
         if (!(i = position(id)))
             error(10);
         else if (table[i].kind != ID_VAR)
@@ -109,7 +109,7 @@ void statement(set symset)
         else
             error(2);
         // 表达式
-        expression(sym);
+        expression(symset);
         mk = (mask *)&table[i];
         if (i)
             gen(STO, level - mk->level, mk->address);
@@ -290,7 +290,7 @@ void factor(set symset)
 
     // test(factorsym, symset, 0);
 
-    while (inset(sym, factorsym))
+    while (inSet(sym, factorsym))
     {
         if (sym == ID_SYM)
         {
@@ -366,7 +366,7 @@ void block(set symset)
                 if (sym == SEMICOLON_SYM)
                     getsym();
                 else
-                    error(8); // Missing ',' or ';'.
+                    error(8);
             } while (sym == ID_SYM);
         }
 
@@ -447,9 +447,20 @@ int main(int argc, char *argv[])
     factorsym = initSet(ID_SYM, NUM_SYM, LEFTP_SYM, NULL_SYM);                                     // 项
 
     getsym(); // 获取符号
+    getsym(); // 获取符号
+    getsym(); // 获取符号
+    getsym(); // 获取符号
+    getsym(); // 获取符号
+    getsym(); // 获取符号
+    getsym(); // 获取符号
+    getsym(); // 获取符号
 
     set symset = unionSet(unionSet(declaresym, statementsym), initSet(PERIOD_SYM, NULL_SYM));
-    block(symset);
+
+    // block(symset);
+
+    if (sym != PERIOD_SYM)
+        error(23);
 
     //  打印目标代码
     for (int i = 0; i < cx; i++)

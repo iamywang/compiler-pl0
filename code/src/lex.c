@@ -22,6 +22,7 @@ int getsym()
         token[i] = '\0';
 
     getch();
+
     while (ch == ' ' || ch == '\t')
         getch();
 
@@ -73,7 +74,7 @@ int getsym()
             error(1);
     }
 
-    if (ch == ':')
+    else if (ch == ':')
     {
         getch();
         if (ch == '=')
@@ -150,16 +151,6 @@ int getsym()
     else if (ch == ')')
     {
         sym = RIGHTP_SYM;
-        printf("界符 <line %d, '%c'>\n", line, ch);
-    }
-    else if (ch == '{')
-    {
-        sym = LEFTB_SYM;
-        printf("界符 <line %d, '%c'>\n", line, ch);
-    }
-    else if (ch == '}')
-    {
-        sym = RIGHTB_SYM;
         printf("界符 <line %d, '%c'>\n", line, ch);
     }
     else if (ch == ',')

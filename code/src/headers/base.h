@@ -8,7 +8,7 @@
 #include <stdarg.h>
 
 #define REVERSED_WORD_NUMBER 14 // 保留字个数
-#define CHAR_SYMBOL_NUMBER 15   // 各种符号个数
+#define CHAR_SYMBOL_NUMBER 13   // 各种符号个数
 #define MAX_SYM_LENGTH 10       // 关键字最大长度
 #define MAX_ID_LENGTH 10        // 标识符最大长度
 #define MAX_NUMBER_LENGTH 14    // 数字最大长度
@@ -22,7 +22,8 @@
 
 #define STACK_SIZE 1024
 
-FILE *in; // 文件
+FILE *in;     // 文件
+int line = 1; // 行数
 
 // 定义集合操作，用于递归语法分析
 typedef struct set_item
@@ -143,11 +144,12 @@ char *err_msg[] = {
     "The operator is illegal expected: '= # > < >= <='.",                    // 符号不在关系运算符中
     "Procedure identifier can not be in an expression.",                     //
     "There may miss a ')'.",                                                 // 缺少右括号
+    "There must be a '.' at the end of PL/0 program.",                       // 必须以.结尾
 };
 
 void error(int error_code)
 {
-    printf("错误<error: %d, %s>\n", error_code, err_msg[error_code]);
+    printf("错误<line: %d, error: %d, %s>\n", line, error_code, err_msg[error_code]);
 }
 
 #endif
