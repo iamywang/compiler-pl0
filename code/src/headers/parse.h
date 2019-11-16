@@ -92,6 +92,7 @@ void statement(set symset);  // 语句处理
 void expression(set symset); // 表达式处理+-*/
 void condition(set symset);  // 状态
 void term(set symset);       // 项
+void factor(set symset);     // 因子
 
 void block(set symset);
 

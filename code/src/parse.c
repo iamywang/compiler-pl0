@@ -226,10 +226,115 @@ void expression(set symset)
 
 void condition(set symset)
 {
+    int relop;
+    set set1 = unionSet(relsym, symset);
+    expression(set1);
+
+    if (!inSet(sym, relsym))
+        error(20);
+
+    else // 关系符号
+    {
+        relop = sym;
+        getsym();
+
+        expression(symset);
+        switch (relop)
+        {
+        case EQUAL_SYM:
+            gen(OPR, 0, OPR_EQU);
+            break;
+        case NOTEQ_SYM:
+            gen(OPR, 0, OPR_NEQ);
+            break;
+        case LESS_SYM:
+            gen(OPR, 0, OPR_LES);
+            break;
+        case LESSEQ_SYM:
+            gen(OPR, 0, OPR_LEQ);
+            break;
+        case BIG_SYM:
+            gen(OPR, 0, OPR_GTR);
+            break;
+        case BIGEQ_SYM:
+            gen(OPR, 0, OPR_GEQ);
+            break;
+        }
+    }
 }
 
 void term(set symset)
 {
+    int mulop;
+    set set1;
+
+    set1 = unionSet(symset, initSet(MUL_SYM, DIV_SYM, NULL_SYM));
+    factor(set1);
+    while (sym == MUL_SYM || sym == DIV_SYM)
+    {
+        mulop = sym;
+        getsym();
+
+        factor(set1);
+        if (mulop == MUL_SYM)
+            gen(OPR, 0, OPR_MUL);
+        else
+            gen(OPR, 0, OPR_DIV);
+    }
+}
+
+void factor(set symset)
+{
+    int i;
+    set set1;
+
+    // test(factorsym, symset, 0);
+
+    while (inset(sym, factorsym))
+    {
+        if (sym == ID_SYM)
+        {
+            if ((i = position(id)) == 0)
+                error(10);
+            else
+                switch (table[i].kind)
+                {
+                    mask *mk;
+                case ID_CONST:
+                    gen(LIT, 0, table[i].value);
+                    break;
+                case ID_VAR:
+                    mk = (mask *)&table[i];
+                    gen(LOD, level - mk->level, mk->address);
+                    break;
+                case ID_PROCEDURE:
+                    error(21);
+                    break;
+                }
+            getsym();
+        }
+        else if (sym == NUM_SYM)
+        {
+            if (num > MAX_ADDR)
+            {
+                error(1);
+                num = 0;
+            }
+            gen(LIT, 0, num);
+            getsym();
+        }
+        else if (sym == LEFTP_SYM)
+        {
+            getsym();
+            set1 = unionSet(initSet(RIGHTP_SYM, NULL_SYM), symset);
+            expression(set1);
+            if (sym == RIGHTP_SYM)
+                getsym();
+            else
+                error(22);
+        }
+        // test(symset, initSet(LEFTP_SYM, NULL_SYM), 0);
+    }
 }
 
 void block(set symset)

@@ -140,6 +140,9 @@ char *err_msg[] = {
     "You can only call procedure.",                                          // 被call调用的必须是procedure
     "There must be 'do'.",                                                   // do
     "There must be 'then'.",                                                 // then
+    "The operator is illegal expected: '= # > < >= <='.",                    // 符号不在关系运算符中
+    "Procedure identifier can not be in an expression.",                     //
+    "There may miss a ')'.",                                                 // 缺少右括号
 };
 
 void error(int error_code)
