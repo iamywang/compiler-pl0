@@ -195,9 +195,40 @@ void statement(set symset)
 
 void expression(set symset)
 {
+    int addop;
+    set set1;
+
+    set1 = unionSet(symset, initSet(PLUS_SYM, MINUS_SYM, NULL_SYM));
+    if (sym == PLUS_SYM || sym == MINUS_SYM)
+    {
+        addop = sym;
+        getsym();
+
+        term(set1);
+        if (addop == MINUS_SYM)
+            gen(OPR, 0, OPR_NEG);
+    }
+    else
+        term(set1);
+
+    while (sym == PLUS_SYM || sym == MINUS_SYM)
+    {
+        addop = sym;
+        getsym();
+
+        term(set1);
+        if (addop == PLUS_SYM)
+            gen(OPR, 0, OPR_ADD);
+        else
+            gen(OPR, 0, OPR_MIN);
+    }
 }
 
 void condition(set symset)
+{
+}
+
+void term(set symset)
 {
 }
 

@@ -63,6 +63,7 @@ void interpret()
             case OPR_NEQ:
                 t--;
                 stack[t] = stack[t] != stack[t + 1];
+                break;
             case OPR_LES:
                 t--;
                 stack[t] = stack[t] < stack[t + 1];
@@ -78,6 +79,10 @@ void interpret()
             case OPR_GEQ:
                 t--;
                 stack[t] = stack[t] >= stack[t + 1];
+                break;
+            case OPR_NEG:
+                stack[t] = -stack[t];
+                break;
             }
 
         case LOD:

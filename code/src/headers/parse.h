@@ -70,7 +70,8 @@ enum OPR_CODE
     OPR_LES, // <
     OPR_LEQ, // <=
     OPR_GTR, // >
-    OPR_GEQ  // >=
+    OPR_GEQ, // >=
+    OPR_NEG  // a = -a
 };
 
 char *ins[MAX_INS] = {"LIT", "OPR", "LOD", "STO", "CAL", "INT", "JMP", "JPC"}; // 指令代码
@@ -90,6 +91,7 @@ void vardeclaration();
 void statement(set symset);  // 语句处理
 void expression(set symset); // 表达式处理+-*/
 void condition(set symset);  // 状态
+void term(set symset);       // 项
 
 void block(set symset);
 
