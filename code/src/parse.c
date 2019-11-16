@@ -193,7 +193,6 @@ void statement(set symset)
         {
             getsym();
             write(id);
-
             if (sym == RIGHTP_SYM)
                 getsym();
             else
@@ -381,7 +380,6 @@ void write(char *id)
         getsym();
         write(id);
     }
-    getsym();
 }
 
 void block(set symset)

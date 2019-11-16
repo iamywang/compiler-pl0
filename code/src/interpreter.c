@@ -13,7 +13,9 @@ void interpret()
 {
     pc = 0;
     b = 1;
-    t = 0;
+    t = 3;
+
+    stack[1] = stack[2] = stack[3] = 0;
 
     do
     {

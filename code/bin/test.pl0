@@ -1,7 +1,7 @@
-const num = 5;
 var x,y;
 
 begin
-    x:=num;
-    write(x)
+    x:= 5;
+    y:= 6;
+    write(x,y)
 end;.
