@@ -21,7 +21,7 @@ void interpret()
     {
         i = code[pc++];
 
-        printf("pc: %d, %s, %d, %d\n", pc, ins[i.f], i.l, i.a);
+        // printf("pc: %d, %s, %d, %d\n", pc, ins[i.f], i.l, i.a);
 
         switch (i.f)
         {
@@ -52,7 +52,7 @@ void interpret()
                 t--;
                 if (stack[t + 1] == 0)
                 {
-                    printf("Error: Divided by zero.\n");
+                    error(26);
                     continue;
                 }
                 stack[t] /= stack[t + 1];
@@ -85,8 +85,7 @@ void interpret()
                 stack[t] = -stack[t];
                 break;
             case OPR_RED:
-                scanf("%d", &stack[t]);
-                t--;
+                scanf("%d", &stack[++t]);
                 break;
             case OPR_WRT:
                 printf("%d\n", stack[t]);

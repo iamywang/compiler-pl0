@@ -2,7 +2,7 @@ const a = 10;
 var b,c;
 
 begin
-    b := a;
-    c := a + a;
-    write(b,c)
+    read(b);
+    c:=12;
+    write(b,c);
 end;.

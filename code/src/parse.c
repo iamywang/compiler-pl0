@@ -42,10 +42,7 @@ int position(char *id)
 void gen(int f, int l, int a)
 {
     if (cx > CXMAX)
-    {
-        printf("Error: Code too long.\n");
-        exit(1);
-    }
+        error(3);
     code[cx].f = f;
     code[cx].l = l;
     code[cx++].a = a;
@@ -186,6 +183,18 @@ void statement(set symset)
         code[cx1].a = cx;
         break;
     case READ_SYM:
+        getsym();
+        if (sym == LEFTP_SYM)
+        {
+            getsym();
+            read(id);
+            if (sym == RIGHTP_SYM)
+                getsym();
+            else
+                error(25);
+        }
+        else
+            error(24);
         break;
     case WRITE_SYM:
         getsym();
@@ -349,8 +358,33 @@ void factor(set symset)
     }
 }
 
-void read()
+void read(char *id)
 {
+    void read();
+    int i;
+    mask *mk;
+
+    if (!(i = position(id)))
+        error(10);
+    else if (table[i].kind != ID_VAR)
+    {
+        error(2);
+        i = 0;
+    }
+
+    mk = (mask *)&table[i];
+    if (i)
+    {
+        gen(OPR, 0, OPR_RED);                     // 从键盘读入数字放到栈顶
+        gen(STO, level - mk->level, mk->address); // 将栈顶内容存到变量里
+    }
+
+    getsym();
+    while (sym == COMMA_SYM)
+    {
+        getsym();
+        read(id);
+    }
 }
 
 void write(char *id)

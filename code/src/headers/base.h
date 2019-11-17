@@ -22,8 +22,9 @@
 
 #define STACK_SIZE 1024
 
-FILE *in;     // 文件
-int line = 1; // 行数
+FILE *in;          // 文件
+int line = 1;      // 行数
+int error_num = 0; // 错误数
 
 // 定义集合操作，用于递归语法分析
 typedef struct set_item
@@ -147,11 +148,13 @@ char *err_msg[] = {
     "There should be a '.' at the end of PL/0 program.",                     // 必须以.结尾
     "There should be a '(' to follow 'write'.",                              // write后必须跟(
     "There should be a ')' to follow identifier.",                           // 标识符后面（read write）必须要有)
+    "It is illegal when divided by zero.",                                   // 除法运算时0不能做除数
 };
 
 void error(int error_code)
 {
-    printf("错误<line: %d, error: %d, %s>\n", line, error_code, err_msg[error_code]);
+    error_num++;
+    printf("错误 <line: %d, error: %d, %s>\n", line, error_code, err_msg[error_code]);
 }
 
 #endif

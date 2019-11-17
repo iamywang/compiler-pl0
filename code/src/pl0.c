@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
     factorsym = initSet(ID_SYM, NUM_SYM, LEFTP_SYM, NULL_SYM);                                     // 项
     set symset = unionSet(unionSet(declaresym, statementsym), initSet(PERIOD_SYM, NULL_SYM));
 
-    printf("词法分析结果：\n");
+    printf("\033[37m词法分析结果：\n\033[0m");
     getsym(); // 获取符号
 
     block(symset);
@@ -32,19 +32,21 @@ int main(int argc, char *argv[])
         error(23);
 
     // 打印源代码
-    printf("程序源代码：\n");
+    printf("\033[37m程序源代码：\n\033[0m");
     for (int i = 0; i < code_pos; i++)
         printf("%c", lex_code[i]);
     printf("\n");
 
     //  打印目标代码
-    printf("生成目标代码：\n");
+    printf("\033[37m生成目标代码：\n\033[0m");
     for (int i = 0; i < cx; i++)
         printf("%s %d %d\n", ins[code[i].f], code[i].l, code[i].a);
 
     // 解释执行
-    printf("解释执行结果：\n");
+    printf("\033[37m解释执行结果：\n\033[0m");
     interpret();
+
+    printf("\033[33mProgram Execute successful, %d errors, exit code = %d.\n\033[0m", error_num, 0);
 
     return 0;
 }
