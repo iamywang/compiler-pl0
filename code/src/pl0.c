@@ -5,8 +5,15 @@ int main(int argc, char *argv[])
 {
     in = fopen(argv[1], "r"); // 读入文件
 
-    for (int i = 0; i < 500; i++)
+    for (int i = 0; i < CXMAX; i++)
         lex_code[i] = '\0';
+
+    for (int i = 0; i < CXMAX; i++)
+    {
+        code[i].f = 0;
+        code[i].l = 0;
+        code[i].a = 0;
+    }
 
     nullsym = initSet(NULL_SYM);
     relsym = initSet(EQUAL_SYM, NOTEQ_SYM, LESS_SYM, LESSEQ_SYM, BIG_SYM, BIGEQ_SYM, NULL_SYM);    // 关系

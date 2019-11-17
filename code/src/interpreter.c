@@ -20,10 +20,8 @@ void interpret()
     do
     {
         i = code[pc++];
-        if (pc > cx || i.f >= 8)
-            return;
 
-        // printf("pc: %d, %d, %d, %d\n", pc, i.f, i.l, i.a);
+        printf("pc: %d, %s, %d, %d\n", pc, ins[i.f], i.l, i.a);
 
         switch (i.f)
         {
@@ -34,7 +32,9 @@ void interpret()
             switch (i.a) // a 具体操作内容
             {
             case OPR_EXT:
-                return;
+                t = b - 1;
+                pc = stack[t + 3];
+                b = stack[t + 2];
                 break;
             case OPR_ADD:
                 t--;
@@ -85,12 +85,15 @@ void interpret()
                 stack[t] = -stack[t];
                 break;
             case OPR_RED:
+                scanf("%d", &stack[t]);
+                t--;
                 break;
             case OPR_WRT:
                 printf("%d\n", stack[t]);
                 t--;
                 break;
             }
+            break;
 
         case LOD:
             stack[++t] = stack[base(stack, b, i.l) + i.a]; // a相对寻址
@@ -99,10 +102,10 @@ void interpret()
             stack[base(stack, b, i.l) + i.a] = stack[t];
             t--;
             break;
-        case CAL: // 调用过程
-            stack[t + 1] = base(stack, b, i.l);
-            stack[t + 2] = b;
-            stack[t + 3] = pc;
+        case CAL:                               // 调用过程
+            stack[t + 1] = base(stack, b, i.l); // SL
+            stack[t + 2] = b;                   // DL
+            stack[t + 3] = pc;                  // RA
             b = t + 1;
             pc = i.a;
             break;

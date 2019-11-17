@@ -1,7 +1,8 @@
-var x,y;
+const a = 10;
+var b,c;
 
 begin
-    x:= 5;
-    y:= 6;
-    write(x,y)
+    b := a;
+    c := a + a;
+    write(b,c)
 end;.
