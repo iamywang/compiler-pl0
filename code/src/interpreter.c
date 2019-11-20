@@ -13,7 +13,7 @@ void interpret()
 {
     pc = 0;
     b = 1;
-    t = 3;
+    t = 100;
 
     stack[1] = stack[2] = stack[3] = 0;
 
@@ -96,8 +96,10 @@ void interpret()
 
         case LOD:
             stack[++t] = stack[base(stack, b, i.l) + i.a]; // a相对寻址
+            // printf("LOD: %d, current top: %d\n",stack[t],t);
             break;
         case STO: // 栈顶内容送到某个单元
+            // printf("STO: %d, current top: %d\n",stack[t],t);
             stack[base(stack, b, i.l) + i.a] = stack[t];
             t--;
             break;

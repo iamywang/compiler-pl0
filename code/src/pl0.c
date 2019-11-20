@@ -37,6 +37,11 @@ int main(int argc, char *argv[])
         printf("%c", lex_code[i]);
     printf("\n");
 
+    //table
+    // printf("\033[37m生成table：\n\033[0m");
+    // for (int i = 0; i < tx; i++)
+    //     printf("%s %d %d\n", table[i].name, table[i].kind, table[i].value);
+
     //  打印目标代码
     printf("\033[37m生成目标代码：\n\033[0m");
     for (int i = 0; i < cx; i++)

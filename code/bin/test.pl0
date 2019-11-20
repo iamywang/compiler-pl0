@@ -1,8 +1,14 @@
-const a = 10;
-var b,c;
+const num = 10;
+var a,b,c,d,e;
 
 begin
-    read(b);
-    c:=12;
-    write(b,c);
+    read(a,b);
+    c := a*b +num;
+    begin
+        d := a/b +num;
+        begin
+            e:=5*num;
+        end;
+    end;
+    write(c,d,e);
 end;.
